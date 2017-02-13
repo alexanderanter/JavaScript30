@@ -60,9 +60,7 @@
 <script>
 
   var audioTags = document.querySelectorAll("audio");
-  var keysContainer = document.querySelector(".keys");
-  var keyTags = keysContainer.querySelectorAll("div");
-
+  var keyTags = document.querySelectorAll(".key");
   function playSound(e){
     // borrowing methods from the Array prototype and send in our nodelist as a argument.
     Array.prototype.forEach.call(audioTags,function(audioTag){
@@ -75,17 +73,14 @@
     Array.prototype.forEach.call(keyTags,function(keyTag){
       if (keyTag.getAttribute("data-key") == e.keyCode){
         keyTag.classList.add('playing');
+        keyTag.addEventListener("transitionend", removeTransition);
       }
     });
   }
   function removeTransition(event){
-    if(event.target.nodeName = "div"){
-      transNode = event.target;
-      transNode.classList.remove('playing');
-    }
+    event.target.classList.remove('playing');
   }
   window.addEventListener("keydown", playSound);
-  keysContainer.addEventListener("transitionend", removeTransition);
 
 </script>
 
