@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>JS Drum Kit</title>
@@ -58,6 +58,33 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+var audioTags =  document.querySelectorAll("audio");
+var keysContainer =  document.querySelector(".keys");
+var keyTags =  keysContainer.querySelectorAll("div");
+
+function playSound(e){
+  Array.prototype.forEach.call(audioTags,function(audioTag){
+    if (audioTag.getAttribute("data-key") == e.keyCode){
+      audioTag.currentTime = 0;
+      audioTag.play();
+    }
+  });
+  Array.prototype.forEach.call(keyTags,function(keyTag){
+    if (keyTag.getAttribute("data-key") == e.keyCode){
+      keyTag.classList.add('playing');
+    }
+  });
+}
+function removeTransition(event){
+  event.preventDefault();
+  // var transNode = event.target.nodeName = "div" ? event.target : event.target.firstElementChild;
+  if(event.target.nodeName = "div"){
+    transNode = event.target;
+    transNode.classList.remove('playing');
+  }
+}
+window.addEventListener("keydown", playSound);
+keysContainer.addEventListener("transitionend", removeTransition);
 
 </script>
 
