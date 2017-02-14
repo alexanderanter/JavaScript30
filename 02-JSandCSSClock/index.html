@@ -67,30 +67,29 @@
        transition: all 0.05s;
        transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1)
     }
-
   </style>
 
   <script>
+    //Declare our clock hands
     const secondHand = document.querySelector('.second-hand');
     const hourHand = document.querySelector('.hour-hand');
     const minHand = document.querySelector('.min-hand');
-    function setDate(){
-      const now = new Date();
-      const seconds = now.getSeconds();
-      const minutes = now.getMinutes();
-      const hours = now.getHours();
-
-      const secondsDegrees = ((seconds / 60) * 360) + 90;
-      const minutesDegrees = ((minutes / 60) * 360) + 90;
-      const hoursDegrees = ((hours / 24) * 360) + 90;
-
-      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
-      minHand.style.transform = `rotate(${minutesDegrees}deg)`;
-      hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
-      // console.log(seconds);
+    //gett current date
+    var now = new Date();
+    function rotateClock(){
+      //Make the clock tick by adding 1 second
+      now.setSeconds(now.getSeconds() + 1);
+      setHand(secondHand, now.getSeconds(), 60);
+      setHand(minHand, now.getMinutes(), 60);
+      setHand(hourHand, now.getHours(), 24);
     }
-    setInterval(setDate, 1000);
-
+    //accepts the clockhand, timing and the parts the hand is divid by (60 for sec 24 for hours..)
+    function setHand(hand, timing, dividedBy ){
+      const degrees = ((timing / dividedBy) * 360) + 90;
+      hand.style.transform = 'rotate(' + degrees + 'deg)';
+    }
+    //Rotate the clock to the current time
+    setInterval(rotateClock, 1000);
   </script>
 </body>
 </html>
