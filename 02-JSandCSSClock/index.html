@@ -81,6 +81,7 @@
     function rotateClock(){
       //Make the clock tick by adding 1 second
       now.setSeconds(now.getSeconds() + 1);
+      //set each clock hand to its current position
       setHand(secondHand, now.getSeconds(), 60);
       setHand(minHand, now.getMinutes(), 60);
       setHand(hourHand, now.getHours(), 24);
