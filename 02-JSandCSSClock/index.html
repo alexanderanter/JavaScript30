@@ -72,21 +72,19 @@
   </style>
 
   <script>
-    //Declare our clock hands
     const secondHand = document.querySelector('.second-hand');
     const hourHand = document.querySelector('.hour-hand');
     const minHand = document.querySelector('.min-hand');
-    //get current date
     var now = new Date();
+
+//Make the clock tick by adding 1 second and set each clock hand to its current position
     function rotateClock(){
-      //Make the clock tick by adding 1 second
       now.setSeconds(now.getSeconds() + 1);
-      //set each clock hand to its current position
       setHand(secondHand, now.getSeconds(), 60);
       setHand(minHand, now.getMinutes(), 60);
       setHand(hourHand, now.getHours(), 24);
     }
-    //accepts the clockhand, timing and the parts the hand is divid by (60 for sec 24 for hours..)
+//Accepts the clockhand, timing and the parts the clock-hand is divided by for full circle
     function setHand(hand, timing, dividedBy ){
       const degrees = ((timing / dividedBy) * 360) + 90;
       //avoid transition bug when it changes minute
@@ -95,7 +93,6 @@
       }else if(hand == secondHand && hand.classList.contains('trans') !== true) {
         hand.classList.add('trans');
       }
-      //Rotate
       hand.style.transform = 'rotate(' + degrees + 'deg)';
     }
     //Rotate the clock to the current time
