@@ -11,7 +11,7 @@
       <div class="clock-face">
         <div class="hand hour-hand"></div>
         <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
+        <div class="hand second-hand trans"></div>
       </div>
     </div>
 
@@ -64,8 +64,10 @@
       transform-origin:100%;
       -webkit-transform: rotate(90deg);
        transform: rotate(90deg);
-       transition: all 0.05s;
-       transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1)
+       transition-timing-function: cubic-bezier(1, 0.01, 0.24, 1.28)
+    }
+    .trans {
+      transition: all 0.3s;
     }
   </style>
 
@@ -86,6 +88,13 @@
     //accepts the clockhand, timing and the parts the hand is divid by (60 for sec 24 for hours..)
     function setHand(hand, timing, dividedBy ){
       const degrees = ((timing / dividedBy) * 360) + 90;
+      //avoid transition bug when it changes minute
+      if(hand == secondHand && degrees == 90){
+        hand.classList.remove('trans');
+      }else if(hand == secondHand && hand.classList.contains('trans') !== true) {
+        hand.classList.add('trans');
+      }
+      //Rotate
       hand.style.transform = 'rotate(' + degrees + 'deg)';
     }
     //Rotate the clock to the current time
