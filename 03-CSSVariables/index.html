@@ -62,15 +62,17 @@
 
   <script>
     const controls = document.querySelector('.controls');
-
     function handleUpdate() {
-      console.log(this.value);
+      let suffix = this.dataset.sizing || '';
+      document.documentElement.style.setProperty('--' + this.name, this.value + suffix);
     }
-
-
+    controls.addEventListener("mousemove", function(event){
+      if(event.target.nodeName == "INPUT") {
+        handleUpdate.call(event.target);
+      }
+    });
     controls.addEventListener("change", function(event){
-      event.preventDefault();
-      if(event.target.nodeName = "input") {
+      if(event.target.nodeName == "INPUT") {
         handleUpdate.call(event.target);
       }
     });
