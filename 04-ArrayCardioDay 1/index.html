@@ -107,15 +107,41 @@
     });
     console.table(yearLived);
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
-    // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+    https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+    var titles = document.querySelectorAll(".mw-category-group ul li");
+    titles = Array.prototype.slice.call(titles);
+    var deTitles = titles.filter(function(event){
+        if (event.innerText.toLowerCase().indexOf("de") >= 0){
+          return true;
+        }
+    })
+
+    console.log(deTitles);
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
-
+   const sortedData = people.sort((lastOne, nextOne) => {
+      const [aLast, aFirst] = lastOne.split(', ');
+      const [bLast, bFirst] = nextOne.split(', ');
+      return aLast > bLast ? 1 : -1;
+    });
+    console.log(sortedData);
     // 8. Reduce Exercise
     // Sum up the instances of each of these
-    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck', 'pogostick'];
+    const transportation = data.reduce(function(obj, item){
+      //set the inital object properties to 0
+      if(!obj[item]){
+          obj[item] = 0;
+      }
+      //add +1 to the objects property = vechicle, value = amount it shows up in the data
+      obj[item]++;
+      return obj;
+    }, {
+
+    })
+    console.log(transportation);
 
   </script>
 </body>
