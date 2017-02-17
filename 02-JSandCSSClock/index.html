@@ -11,7 +11,7 @@
       <div class="clock-face">
         <div class="hand hour-hand"></div>
         <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
+        <div class="hand second-hand trans"></div>
       </div>
     </div>
 
@@ -61,13 +61,42 @@
       background:black;
       position: absolute;
       top:50%;
+      transform-origin:100%;
+      -webkit-transform: rotate(90deg);
+       transform: rotate(90deg);
+       transition-timing-function: cubic-bezier(1, 0.01, 0.24, 1.28)
     }
-
+    .trans {
+      transition: all 0.3s;
+    }
   </style>
 
   <script>
+    const secondHand = document.querySelector('.second-hand');
+    const hourHand = document.querySelector('.hour-hand');
+    const minHand = document.querySelector('.min-hand');
+    var now = new Date();
 
-
+//Make the clock tick by adding 1 second and set each clock hand to its current position
+    function rotateClock(){
+      now.setSeconds(now.getSeconds() + 1);
+      setHand(secondHand, now.getSeconds(), 60);
+      setHand(minHand, now.getMinutes(), 60);
+      setHand(hourHand, now.getHours(), 24);
+    }
+//Accepts the clockhand, timing and the parts the clock-hand is divided by for full circle
+    function setHand(hand, timing, dividedBy ){
+      const degrees = ((timing / dividedBy) * 360) + 90;
+      //avoid transition bug when it changes minute
+      if(hand == secondHand && degrees == 90){
+        hand.classList.remove('trans');
+      }else if(hand == secondHand && hand.classList.contains('trans') !== true) {
+        hand.classList.add('trans');
+      }
+      hand.style.transform = 'rotate(' + degrees + 'deg)';
+    }
+    //Rotate the clock to the current time
+    setInterval(rotateClock, 1000);
   </script>
 </body>
 </html>
