@@ -68,10 +68,10 @@
       align-items: center;
     }
     .panel > *:first-child { transform:translateY(-100%);}
-    .panel.open > *:first-child {transform: translateY(0);}
+    .panel.open-active > *:first-child {transform: translateY(0);}
 
     .panel > *:last-child { transform:translateY(100%);}
-    .panel.open > *:last-child {transform: translateY(0);}
+    .panel.open-active > *:last-child {transform: translateY(0);}
 
     .panel p {
       text-transform: uppercase;
@@ -126,12 +126,15 @@
 
   <script>
     const panelsContainer = document.querySelector('.panels');
-
-    panelsContainer.addEventListener("click", function(event){
+    function toggleOpen(){
       event.preventDefault();
-      var clickedChildNode = event.target.nodeName == "DIV" ? event.target : event.target.parentNode;
+      const clickedChildNode = event.target.nodeName == "DIV" ? event.target : event.target.parentNode;
       clickedChildNode.classList.toggle('open');
-    });
+      setTimeout(function(){
+        clickedChildNode.classList.toggle('open-active');
+      }, 600);
+    }
+    panelsContainer.addEventListener("click", toggleOpen);
 
   </script>
 
