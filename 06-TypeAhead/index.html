@@ -15,12 +15,44 @@
     </ul>
   </form>
 <script>
+//Get all cities in an array from a json file
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 const cities = [];
 fetch(endpoint)
 .then(blob => blob.json())
 .then(data => cities.push(...data));
+//Filter the one we want based on a regex
+function findMatches(matchedWord, cities) {
+  return cities.filter(place => {
+    //filter so only the city or state that matches the word typed is left in the array
+    const regex = new RegExp(matchedWord, 'gi');
+    return place.city.match(regex) || place.state.match(regex)
+  });
+}
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+function displayMatches() {
+  const searchPhrase = this.value;
+  const matchArray = findMatches(searchPhrase, cities);
+  const html = matchArray.map(place => {
+    const regexHi = new RegExp(this.value, 'gi');
+    const cityName = place.city.replace(regexHi, `<span class="hl">${this.value}</span>`);
+    const cityState = place.state.replace(regexHi, `<span class="hl">${this.value}</span>`);
+    return `<li>
+        <span class="name">${cityName}, ${cityState}</span>
+        <span class="population">${numberWithCommas(place.population)}</span>
+      </li>`;
+  }).join('');
 
+  suggestions.innerHTML = html;
+}
+
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+searchInput.addEventListener('change', displayMatches);
+searchInput.addEventListener('keyup', displayMatches);
 
 </script>
   </body>
